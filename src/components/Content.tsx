@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
-import { AiOutlineCloseCircle } from 'react-icons/ai'
-import Modal from 'react-modal';
+import { lazy, Suspense, useEffect, useState } from "react";
 
 import { GenreResponseProps } from "../interfaces";
 import { api } from "../services/api";
@@ -8,6 +6,8 @@ import { Header } from "./Header";
 import { MovieCard } from "./MovieCard";
 
 import '../styles/content.scss';
+
+const Modal = lazy(() => import('./Modal'))
 
 interface MovieProps {
   imdbID: string;
@@ -44,8 +44,6 @@ const DEFAULT_MODAL_DATA = {
   movieAwards: ''
 }
 
-Modal.setAppElement('#root');
-
 export function Content({selectedGenreId, selectedGenre}: ContentProps) {
   const [movies, setMovies] = useState<MovieProps[]>([]);
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -67,7 +65,6 @@ export function Content({selectedGenreId, selectedGenre}: ContentProps) {
     setIsOpen(false);
   }
   
-  
   return (
     <div className="container">
     <Header selectedGenreTitle={selectedGenre.title} />
@@ -83,8 +80,10 @@ export function Content({selectedGenreId, selectedGenre}: ContentProps) {
               movieActors: movie.Actors,
               movieAwards: movie.Awards
             })}
-            key={movie.imdbID} data-message="Button to open modal"
+            key={movie.imdbID}
+            data-message="Button to open modal"
             className="movie-card"
+            role="button"
           >
             <MovieCard
               title={movie.Title}
@@ -95,29 +94,17 @@ export function Content({selectedGenreId, selectedGenre}: ContentProps) {
           </div>
         ))}
       </div>
-    </main>
 
-    <Modal
-      isOpen={modalIsOpen}
-      contentLabel="Movie Card"
-      overlayClassName="Overlay"
-      className="Modal"
-    >
-      <div className="modal-content">
-        <div className="modal-poster-area">
-          <img src={modalData.moviePoster} alt="Poster image" />
-        </div>
-        <div className="modal-content-area">
-          <button onClick={closeModal} data-message="Button to close modal">
-            <AiOutlineCloseCircle size={45} color="red" />
-          </button>
-          <h1>{modalData.movieTitle}</h1>
-          <p>{modalData.moviePlot}</p>
-          <span><strong>Actors: </strong>{modalData.movieActors}</span>
-          <span><strong>Awards: </strong>{modalData.movieAwards}</span>
-        </div>
-      </div>
-    </Modal>
+      {modalIsOpen && (
+        <Suspense fallback={<div>Carregando...</div>}>
+          <Modal
+            modalIsOpen={modalIsOpen}
+            modalData={modalData}
+            closeModal={closeModal}
+          />
+        </Suspense>
+      )}
+    </main>
   </div>
   )
 }
