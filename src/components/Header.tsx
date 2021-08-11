@@ -1,8 +1,10 @@
+import { memo } from "react"
+
 type HeaderProps = {
   selectedGenreTitle: string;
 }
 
-export function Header({selectedGenreTitle}: HeaderProps) {
+export function HeaderComponent({selectedGenreTitle}: HeaderProps) {
   return (
     <header>
       <span className="category">
@@ -11,3 +13,5 @@ export function Header({selectedGenreTitle}: HeaderProps) {
    </header>
   )
 }
+
+export const Header = memo(HeaderComponent)

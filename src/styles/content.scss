@@ -13,11 +13,7 @@
   .modal-content {
     position: relative;
     display: flex;
-    gap: 3rem;
-
-    >div {
-      flex: 1;
-    }
+    gap: 2rem;
 
     .modal-poster-area {
       >img {

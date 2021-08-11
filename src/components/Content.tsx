@@ -1,31 +1,20 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 
-import { GenreResponseProps } from "../interfaces";
+import { GenreResponseProps, MovieProps } from "../interfaces";
 import { api } from "../services/api";
 import { Header } from "./Header";
 import { MovieCard } from "./MovieCard";
 
 import '../styles/content.scss';
+import { memo } from "react";
+import { useCallback } from "react";
 
 const Modal = lazy(() => import('./Modal'))
 
-interface MovieProps {
-  imdbID: string;
-  Title: string;
-  Poster: string;
-  Ratings: Array<{
-    Source: string;
-    Value: string;
-  }>;
-  Runtime: string;
-  Plot: string;
-  Actors: string;
-  Awards: string;
-}
 
 type ContentProps = {
-  selectedGenreId: number;
   selectedGenre: GenreResponseProps;
+  movies: MovieProps[];
 }
 
 type ModalData = {
@@ -44,26 +33,19 @@ const DEFAULT_MODAL_DATA = {
   movieAwards: ''
 }
 
-export function Content({selectedGenreId, selectedGenre}: ContentProps) {
-  const [movies, setMovies] = useState<MovieProps[]>([]);
+export function ContentComponent({ movies, selectedGenre }: ContentProps) {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState({} as ModalData);
 
-  useEffect(() => {
-    api.get<MovieProps[]>(`movies/?Genre_id=${selectedGenreId}`).then(response => {
-      setMovies(response.data);
-    });
-  }, [selectedGenre])
-
-  function openModal(movieData: ModalData) {
+  const openModal = useCallback((movieData: ModalData) => {
     setModalData(movieData)
     setIsOpen(true);
-  }
+  }, [])
 
-  function closeModal() {
+  const closeModal = useCallback(() => {
     setModalData(DEFAULT_MODAL_DATA)
     setIsOpen(false);
-  }
+  }, [])
   
   return (
     <div className="container">
@@ -108,3 +90,5 @@ export function Content({selectedGenreId, selectedGenre}: ContentProps) {
   </div>
   )
 }
+
+export const Content = memo(ContentComponent)
