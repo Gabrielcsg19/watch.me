@@ -8,7 +8,7 @@ SPA que lista filmes e suas categorias alimentada por dados providos pelo json-s
 
 ## 🚀 Introdução
 
-Aplicação criada através do Ignite da Rocketseat com o objetivo de praticar os conhecimentos em criação de componentes React usando *Function Components* com *React Hooks*. Além de treinar otimização de performance usando os recursos como *React.memo*, *React.useCallback*, entre outros.
+Aplicação criada através do Ignite da Rocketseat com o objetivo de praticar os conhecimentos em otimização de performance usando os recursos como *React.memo*, *React.useCallback*, entre outros.
 
 ## 📋 Pré-requisitos
 
