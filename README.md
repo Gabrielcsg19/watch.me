@@ -43,7 +43,7 @@ Em seguida, execute o json-server em paralelo para servir os dados com o seguint
 yarn server
 ```
 
-## 🛠️ Tecnologias utilizadas
+## 🛠️ Principais tecnologias utilizadas
 - [React.js](https://reactjs.org/) - Biblioteca Javascript focada em criação de interfaces performáticas baseadas em componente.
 - [Typescript](https://www.typescriptlang.org/) - Superset Javascript que adiciona tipagem estática à linguagem.
 - [json-server](https://github.com/typicode/json-server) - Biblioteca para criação de uma fake REST API para usar em desenvolvimento.
